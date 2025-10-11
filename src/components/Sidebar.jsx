@@ -10,7 +10,7 @@ export default function Sidebar({ isOpen, onClose }) {
   const navigationItems = [
     {
       name: "Dashboard",
-      href: "/dashboard/admin",
+      href: "/dashboard/client",
       icon: (
         <svg
           className="w-5 h-5"
