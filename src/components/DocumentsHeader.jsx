@@ -4,12 +4,9 @@ const DocumentsHeader = () => {
     <div className="mb-6">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-            Document Repository
-          </h1>
-          <p className="text-gray-600 text-sm md:text-base">
-            View and download project documents (Read-Only Access)
-          </p>
+
+          <h2 className="text-[18px] font-[600] text-gray-900 ">Document Repository</h2>
+              <p className="text-gray-500 text-sm"> View and download project documents (Read-Only Access)</p>
         </div>
         
         <div className="flex items-center">
