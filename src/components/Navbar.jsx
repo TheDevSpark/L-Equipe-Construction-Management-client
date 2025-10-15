@@ -4,8 +4,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import LogoutButton from "./LogoutButton";
 
-export default function Header({ onMenuToggle }) {
+export default function Header({ onMenuToggle, user }) {
   const pathname = usePathname();
 
   const navigationItems = [
@@ -141,7 +142,7 @@ export default function Header({ onMenuToggle }) {
           </div>
         </div>
 
-        {/* Right side - User Profile */}
+        {/* Right side - User Profile / Auth */}
         <div className="flex items-center space-x-2 sm:space-x-3">
           {/* Search Icon - Mobile */}
           <button className="lg:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition">
@@ -160,40 +161,28 @@ export default function Header({ onMenuToggle }) {
             </svg>
           </button>
 
-          {/* User Profile - Desktop */}
-          <div className="hidden lg:flex items-center space-x-2 text-gray-600 cursor-pointer hover:bg-gray-50 px-3 py-2 rounded-lg transition">
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-              />
-            </svg>
-            <span className="text-sm font-medium">Owner's Rep</span>
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </div>
-
-          {/* Avatar */}
-          <div className="w-9 h-9 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
-            <span className="text-white text-sm font-medium">OR</span>
+          <div className="hidden lg:flex items-center gap-2">
+            {user ? (
+              <div className="flex items-center gap-2 text-gray-700 bg-gray-100 px-3 py-2 rounded-lg">
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
+                </svg>
+                <span className="text-sm font-medium">{`${user.firstName ?? ""} ${user.lastName ?? ""}`.trim() || user.email}</span>
+                <LogoutButton />
+              </div>
+            ) : (
+              <a href="/login" className="inline-flex items-center text-sm text-white bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-lg cursor-pointer">Sign in</a>
+            )}
           </div>
         </div>
       </div>

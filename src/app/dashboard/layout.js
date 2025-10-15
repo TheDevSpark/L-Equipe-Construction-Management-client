@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../../app/globals.css";
 import Layout from "../../components/Layout";
+import { getUserFromCookies } from "@/lib/auth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export default function DashboardLayout({ children }) {
+  const user = getUserFromCookies();
   // Do not render <html> or <body> here — the root layout owns them.
   // Keep the font variables on the root layout; this file should only
   // wrap pages with the dashboard Layout component.
-  return <Layout>{children}</Layout>;
+  return <Layout user={user}>{children}</Layout>;
 }
