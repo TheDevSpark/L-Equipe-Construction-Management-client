@@ -1,10 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
 
 // MilestoneTimeline.jsx
 const MilestoneTimeline = () => {
   const [selected, setSelected] = useState(null);
-  const milestones = [
+  const [loading, setLoading] = useState(false);
+  const [milestones, setMilestones] = useState([
     {
       id: 1,
       category: "Pre-Construction",
@@ -83,7 +85,41 @@ const MilestoneTimeline = () => {
       day: "Day 122",
       isCompleted: false
     }
-  ];
+  ]);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function load() {
+      if (!supabase) return; // no env configured -> keep static
+      setLoading(true);
+      // NOTE: Replace with actual project_id filtering when wired
+      const { data, error } = await supabase
+        .from("milestones")
+        .select("id, category, status, title, target_date, completed_date, description, day_label, is_completed")
+        .order("sort_index", { ascending: true });
+      if (!isMounted) return;
+      if (!error && Array.isArray(data) && data.length) {
+        const mapped = data.map((m) => ({
+          id: m.id,
+          category: m.category,
+          status: m.status,
+          statusColor: m.status === 'Completed' ? 'bg-green-500' : m.status === 'On Track' ? 'bg-blue-500' : 'bg-orange-500',
+          title: m.title,
+          targetDate: m.target_date || null,
+          completedDate: m.completed_date || null,
+          description: m.description || '',
+          day: m.day_label || '',
+          isCompleted: !!m.is_completed,
+        }));
+        setMilestones(mapped);
+      }
+      setLoading(false);
+    }
+    load();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   function openDetails(milestone) {
     setSelected(milestone);
@@ -100,6 +136,11 @@ const MilestoneTimeline = () => {
       </h2>
       
       <div className="relative">
+        {loading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-white/50">
+            <div className="animate-spin h-6 w-6 border-2 border-gray-300 border-t-transparent rounded-full"></div>
+          </div>
+        )}
         {/* Vertical Timeline Line */}
         <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-300"></div>
         
