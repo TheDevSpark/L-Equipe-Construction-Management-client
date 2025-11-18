@@ -4,6 +4,7 @@
 import { useState } from "react";
 import Header from "./Navbar";
 import Sidebar from "./Sidebar";
+import ProjectSelector from "./ProjectSelector";
 
 export default function DashboardLayout({ children, user }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -17,11 +18,12 @@ export default function DashboardLayout({ children, user }) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header onMenuToggle={toggleSidebar} user={user} />
-      <div className="flex">
+      <ProjectSelector />
+      <div className="flex flex-1 overflow-hidden">
         <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
-        <main className="flex-1 ">
+        <main className="flex-1 overflow-auto m-5">
           {children}
         </main>
       </div>

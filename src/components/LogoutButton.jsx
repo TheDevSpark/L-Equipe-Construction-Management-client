@@ -1,10 +1,16 @@
 "use client";
+import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 
 export default function LogoutButton() {
   const router = useRouter();
   async function handleLogout() {
-    await fetch("/api/auth/logout", { method: "POST" });
+    const {error} = await supabase.auth.signOut();
+    if (error) {
+      console.error("Logout failed:", error.message);
+      toast.error("Logout failed: " + error.message);
+    }
+    toast.uccess("Logout successful");
     router.replace("/login");
   }
   return (
