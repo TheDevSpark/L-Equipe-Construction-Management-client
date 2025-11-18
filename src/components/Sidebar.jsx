@@ -1,7 +1,12 @@
 // Sidebar.jsx
 "use client";
 
-import { CalendarCheck, CircleDollarSign, Files, LayoutDashboard } from "lucide-react";
+import {
+  CalendarCheck,
+  CircleDollarSign,
+  Files,
+  LayoutDashboard,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -12,30 +17,24 @@ export default function Sidebar({ isOpen, onClose }) {
     {
       name: "Dashboard",
       href: "/dashboard/client",
-      icon: (
-     <LayoutDashboard/>
-      ),
+      icon: <LayoutDashboard />,
     },
     {
       name: "Schedule",
       href: "/dashboard/schedule",
-      icon: (
-     <CalendarCheck/>
-      ),
+      icon: <CalendarCheck />,
     },
-    {
-      name: "Documents",
-      href: "/dashboard/documents",
-      icon: (
-          <Files/>
-      ),
-    },
+    // {
+    //   name: "Documents",
+    //   href: "/dashboard/documents",
+    //   icon: (
+    //       <Files/>
+    //   ),
+    // },
     {
       name: "Budget",
       href: "/dashboard/budget",
-      icon: (
-<CircleDollarSign/>
-      ),
+      icon: <CircleDollarSign />,
     },
   ];
 
